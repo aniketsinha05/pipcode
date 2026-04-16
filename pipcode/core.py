@@ -1,31 +1,38 @@
-# ===================== Practical 1 =====================
+# ===================== Practical Printer Library =====================
+
+def practical_1():
+    print("""# ===================== Practical 1 =====================
 import pandas as pd
 
 df = pd.read_csv("ml_practical_dataset.csv")
 
-print("Before:\n", df)
-print("\nMissing:\n", df.isnull().sum())
+print("Before:\\n", df)
+print("\\nMissing:\\n", df.isnull().sum())
 
 num_cols = df.select_dtypes(include=['float64', 'int64']).columns
 df[num_cols] = df[num_cols].fillna(df[num_cols].mean())
 
-print("\nAfter:\n", df)
-print("\nMissing After:\n", df.isnull().sum())
+print("\\nAfter:\\n", df)
+print("\\nMissing After:\\n", df.isnull().sum())
+""")
 
 
-# ===================== Practical 2 =====================
+def practical_2():
+    print("""# ===================== Practical 2 =====================
 import pandas as pd
 
 df = pd.read_csv("ml_practical_dataset.csv")
 
-print("Before:\n", df['Department'].value_counts())
+print("Before:\\n", df['Department'].value_counts())
 
 df['Department'].fillna(df['Department'].mode()[0], inplace=True)
 
-print("\nAfter:\n", df['Department'].value_counts())
+print("\\nAfter:\\n", df['Department'].value_counts())
+""")
 
 
-# ===================== Practical 3 =====================
+def practical_3():
+    print("""# ===================== Practical 3 =====================
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
 
@@ -37,9 +44,11 @@ df['Department'] = df['Department'].astype(str)
 df['Department_Encoded'] = le.fit_transform(df['Department'])
 
 print(df[['Department', 'Department_Encoded']])
+""")
 
 
-# ===================== Practical 4 =====================
+def practical_4():
+    print("""# ===================== Practical 4 =====================
 import pandas as pd
 
 df = pd.read_csv("ml_practical_dataset.csv")
@@ -47,9 +56,11 @@ df = pd.read_csv("ml_practical_dataset.csv")
 df = pd.get_dummies(df, columns=['Department', 'Education'])
 
 print(df.head())
+""")
 
 
-# ===================== Practical 5 =====================
+def practical_5():
+    print("""# ===================== Practical 5 =====================
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 
@@ -61,9 +72,10 @@ scaler = MinMaxScaler()
 df[num_cols] = scaler.fit_transform(df[num_cols])
 
 print(df[num_cols].head())
-
-
-# ===================== Practical 6 =====================
+""")
+    
+def practical_6():
+    print("""# ===================== Practical 6 =====================
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
 
@@ -76,8 +88,11 @@ df[num_cols] = scaler.fit_transform(df[num_cols])
 
 print(df[num_cols].mean())
 print(df[num_cols].std())
+""")
 
-# ===================== Practical 7 =====================
+
+def practical_7():
+    print("""# ===================== Practical 7 =====================
 import pandas as pd
 
 df = pd.read_csv("ml_practical_dataset.csv")
@@ -85,19 +100,23 @@ df = pd.read_csv("ml_practical_dataset.csv")
 df['New_Feature'] = df['Experience'] * df['PerformanceScore']
 
 print(df.head())
+""")
 
 
-# ===================== Practical 8 =====================
+def practical_8():
+    print("""# ===================== Practical 8 =====================
 import pandas as pd
 
 df = pd.read_csv("ml_practical_dataset.csv")
 
 print(df.describe())
 
-print("\nMedian:\n", df.median(numeric_only=True))
+print("\\nMedian:\\n", df.median(numeric_only=True))
+""")
 
 
-# ===================== Practical 9 =====================
+def practical_9():
+    print("""# ===================== Practical 9 =====================
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -105,9 +124,11 @@ df = pd.read_csv("ml_practical_dataset.csv")
 
 df.hist()
 plt.show()
+""")
 
 
-# ===================== Practical 10 =====================
+def practical_10():
+    print("""# ===================== Practical 10 =====================
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -115,18 +136,22 @@ df = pd.read_csv("ml_practical_dataset.csv")
 
 df.boxplot()
 plt.show()
+""")
 
 
-# ===================== Practical 11 =====================
+def practical_11():
+    print("""# ===================== Practical 11 =====================
 import pandas as pd
 
 df = pd.read_csv("ml_practical_dataset.csv")
 
 corr = df.corr(numeric_only=True)
 print(corr)
+""")
 
 
-# ===================== Practical 12 =====================
+def practical_12():
+    print("""# ===================== Practical 12 =====================
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -137,9 +162,11 @@ corr = df.corr(numeric_only=True)
 
 sns.heatmap(corr, annot=True)
 plt.show()
+""")
 
 
-# ===================== Practical 13 =====================
+def practical_13():
+    print("""# ===================== Practical 13 =====================
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -148,17 +175,21 @@ df = pd.read_csv("ml_practical_dataset.csv")
 
 sns.pairplot(df)
 plt.show()
+""")
 
 
-# ===================== Practical 14 =====================
+def practical_14():
+    print("""# ===================== Practical 14 =====================
 import pandas as pd
 
 df = pd.read_csv("ml_practical_dataset.csv")
 
 print(df.skew(numeric_only=True))
+""")
 
 
-# ===================== Practical 15 =====================
+def practical_15():
+    print("""# ===================== Practical 15 =====================
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
 
@@ -171,9 +202,11 @@ y = df['Target_Class']
 
 model = LogisticRegression()
 model.fit(X, y)
+""")
 
 
-# ===================== Practical 16 =====================
+def practical_16():
+    print("""# ===================== Practical 16 =====================
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
@@ -185,9 +218,11 @@ X = df[['Age', 'Salary', 'Experience', 'PerformanceScore']]
 y = df['Target_Class']
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
+""")
 
 
-# ===================== Practical 17 =====================
+def practical_17():
+    print("""# ===================== Practical 17 =====================
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
@@ -207,9 +242,11 @@ model.fit(X_train, y_train)
 y_pred = model.predict(X_test)
 
 print(y_pred)
+""")
 
 
-# ===================== Practical 18 =====================
+def practical_18():
+    print("""# ===================== Practical 18 =====================
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
@@ -230,9 +267,11 @@ model.fit(X_train, y_train)
 y_pred = model.predict(X_test)
 
 print("Accuracy:", accuracy_score(y_test, y_pred))
+""")
 
 
-# ===================== Practical 19 =====================
+def practical_19():
+    print("""# ===================== Practical 19 =====================
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
@@ -253,9 +292,11 @@ model.fit(X_train, y_train)
 y_pred = model.predict(X_test)
 
 print(confusion_matrix(y_test, y_pred))
+""")
 
 
-# ===================== Practical 20 =====================
+def practical_20():
+    print("""# ===================== Practical 20 =====================
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
@@ -276,8 +317,11 @@ model.fit(X_train, y_train)
 y_pred = model.predict(X_test)
 
 print(classification_report(y_test, y_pred))
+""")
 
-# ===================== Practical 21 =====================
+
+def practical_21():
+    print("""# ===================== Practical 21 =====================
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
@@ -306,9 +350,11 @@ model = LogisticRegression()
 model.fit(X_train, y_train)
 y_pred = model.predict(X_test)
 print("With Scaling Accuracy:", accuracy_score(y_test, y_pred))
+""")
 
 
-# ===================== Practical 22 =====================
+def practical_22():
+    print("""# ===================== Practical 22 =====================
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
@@ -326,9 +372,11 @@ knn.fit(X_train, y_train)
 
 y_pred = knn.predict(X_test)
 print(y_pred)
+""")
 
 
-# ===================== Practical 23 =====================
+def practical_23():
+    print("""# ===================== Practical 23 =====================
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
@@ -347,9 +395,11 @@ knn.fit(X_train, y_train)
 
 y_pred = knn.predict(X_test)
 print("Accuracy:", accuracy_score(y_test, y_pred))
+""")
 
 
-# ===================== Practical 24 =====================
+def practical_24():
+    print("""# ===================== Practical 24 =====================
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
@@ -368,9 +418,11 @@ for k in range(1, 11):
     model.fit(X_train, y_train)
     pred = model.predict(X_test)
     print("k =", k, "Accuracy =", accuracy_score(y_test, pred))
+""")
 
 
-# ===================== Practical 25 =====================
+def practical_25():
+    print("""# ===================== Practical 25 =====================
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
@@ -399,116 +451,11 @@ model = KNeighborsClassifier(n_neighbors=3)
 model.fit(X_train, y_train)
 pred = model.predict(X_test)
 print("With Scaling:", accuracy_score(y_test, pred))
+""")
+    
 
-
-# ===================== Practical 26 =====================
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
-
-df = pd.read_csv("ml_practical_dataset.csv")
-df = df.dropna()
-
-X = df[['Age', 'Salary', 'Experience', 'PerformanceScore']]
-y = df['Target_Regression']
-
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
-
-model = LinearRegression()
-model.fit(X_train, y_train)
-
-
-# ===================== Practical 27 =====================
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
-
-df = pd.read_csv("ml_practical_dataset.csv")
-df = df.dropna()
-
-X = df[['Age', 'Salary', 'Experience', 'PerformanceScore']]
-y = df['Target_Regression']
-
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
-
-model = LinearRegression()
-model.fit(X_train, y_train)
-
-y_pred = model.predict(X_test)
-print(y_pred)
-
-# ===================== Practical 28 =====================
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
-from sklearn.metrics import mean_squared_error
-
-df = pd.read_csv("ml_practical_dataset.csv")
-df = df.dropna()
-
-X = df[['Age', 'Salary', 'Experience', 'PerformanceScore']]
-y = df['Target_Regression']
-
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
-
-model = LinearRegression()
-model.fit(X_train, y_train)
-
-y_pred = model.predict(X_test)
-
-print("MSE:", mean_squared_error(y_test, y_pred))
-
-
-# ===================== Practical 29 =====================
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
-from sklearn.metrics import r2_score
-
-df = pd.read_csv("ml_practical_dataset.csv")
-df = df.dropna()
-
-X = df[['Age', 'Salary', 'Experience', 'PerformanceScore']]
-y = df['Target_Regression']
-
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
-
-model = LinearRegression()
-model.fit(X_train, y_train)
-
-y_pred = model.predict(X_test)
-
-print("R2 Score:", r2_score(y_test, y_pred))
-
-
-# ===================== Practical 30 =====================
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
-from sklearn.preprocessing import PolynomialFeatures
-from sklearn.metrics import mean_squared_error, r2_score
-
-df = pd.read_csv("ml_practical_dataset.csv")
-df = df.dropna()
-
-X = df[['Age']]   # single feature for simplicity
-y = df['Target_Regression']
-
-poly = PolynomialFeatures(degree=2)
-X_poly = poly.fit_transform(X)
-
-X_train, X_test, y_train, y_test = train_test_split(X_poly, y, test_size=0.2)
-
-model = LinearRegression()
-model.fit(X_train, y_train)
-
-y_pred = model.predict(X_test)
-
-print("MSE:", mean_squared_error(y_test, y_pred))
-print("R2:", r2_score(y_test, y_pred))
-
-
-# ===================== Practical 31 =====================
+def practical_31():
+    print("""# ===================== Practical 31 =====================
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -533,9 +480,11 @@ y_poly = model.predict(poly.transform(X_sorted))
 plt.scatter(X, y)
 plt.plot(X_sorted, y_poly)
 plt.show()
+""")
 
 
-# ===================== Practical 32 =====================
+def practical_32():
+    print("""# ===================== Practical 32 =====================
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
@@ -555,9 +504,11 @@ model.fit(X_train, y_train)
 y_pred = model.predict(X_test)
 
 print("MSE:", mean_squared_error(y_test, y_pred))
+""")
 
 
-# ===================== Practical 33 =====================
+def practical_33():
+    print("""# ===================== Practical 33 =====================
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import Ridge
@@ -577,9 +528,11 @@ model.fit(X_train, y_train)
 y_pred = model.predict(X_test)
 
 print("Ridge MSE:", mean_squared_error(y_test, y_pred))
+""")
 
 
-# ===================== Practical 34 =====================
+def practical_34():
+    print("""# ===================== Practical 34 =====================
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import Lasso
@@ -599,9 +552,11 @@ model.fit(X_train, y_train)
 y_pred = model.predict(X_test)
 
 print("Lasso MSE:", mean_squared_error(y_test, y_pred))
+""")
 
 
-# ===================== Practical 35 =====================
+def practical_35():
+    print("""# ===================== Practical 35 =====================
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression, Ridge, Lasso
@@ -630,9 +585,11 @@ pred_lasso = lasso.predict(X_test)
 print("Linear MSE:", mean_squared_error(y_test, pred_lr))
 print("Ridge MSE:", mean_squared_error(y_test, pred_ridge))
 print("Lasso MSE:", mean_squared_error(y_test, pred_lasso))
+""")
 
 
-# ===================== Practical 36 =====================
+def practical_36():
+    print("""# ===================== Practical 36 =====================
 import pandas as pd
 from sklearn.model_selection import cross_val_score
 from sklearn.linear_model import LinearRegression
@@ -648,9 +605,11 @@ model = LinearRegression()
 scores = cross_val_score(model, X, y, cv=5, scoring='neg_mean_squared_error')
 
 print("Average MSE:", -scores.mean())
+""")
 
 
-# ===================== Practical 37 =====================
+def practical_37():
+    print("""# ===================== Practical 37 =====================
 import pandas as pd
 from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.linear_model import LinearRegression
@@ -673,9 +632,11 @@ print("Validation MSE:", mean_squared_error(y_test, pred))
 # Cross-validation
 scores = cross_val_score(model, X, y, cv=5, scoring='neg_mean_squared_error')
 print("Cross-Validation MSE:", -scores.mean())
+""")
 
 
-# ===================== Practical 38 =====================
+def practical_38():
+    print("""# ===================== Practical 38 =====================
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression, Ridge, Lasso
@@ -699,9 +660,11 @@ for name, model in models.items():
     model.fit(X_train, y_train)
     pred = model.predict(X_test)
     print(name, "MSE:", mean_squared_error(y_test, pred))
+""")
 
 
-# ===================== Practical 39 =====================
+def practical_39():
+    print("""# ===================== Practical 39 =====================
 import pandas as pd
 from sklearn.model_selection import GridSearchCV
 from sklearn.linear_model import Ridge
@@ -720,9 +683,11 @@ grid = GridSearchCV(model, params, cv=5, scoring='neg_mean_squared_error')
 grid.fit(X, y)
 
 print("Best Alpha:", grid.best_params_)
+""")
 
 
-# ===================== Practical 40 =====================
+def practical_40():
+    print("""# ===================== Practical 40 =====================
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.linear_model import Ridge
@@ -747,4 +712,95 @@ plt.xscale('log')
 plt.xlabel("Alpha")
 plt.ylabel("MSE")
 plt.show()
+""")
+    
 
+def show_all_questions():
+    print("""===================== ALL PRACTICAL QUESTIONS =====================
+
+1. Load the given dataset and identify missing values in numerical columns, then replace them using mean imputation and display the dataset before and after preprocessing.
+
+2. Using the given dataset, identify missing values in categorical columns and replace them using mode, then compare frequency distribution before and after.
+
+3. Using the given dataset, apply Label Encoding on a categorical column and display the transformed values.
+
+4. Using the given dataset, apply One-Hot Encoding on categorical features and show the increase in number of columns.
+
+5. Using the given dataset, perform Min-Max scaling on numerical features and verify that all values lie between 0 and 1.
+
+6. Using the given dataset, apply StandardScaler and verify mean is approximately 0 and standard deviation is 1.
+
+7. Using the given dataset, create a new feature using existing columns and display the updated dataset.
+
+8. Using the given dataset, display summary statistics including mean, median, minimum, maximum, and standard deviation.
+
+9. Using the given dataset, plot histograms for numerical features and describe the distribution.
+
+10. Using the given dataset, draw boxplots for selected features and identify outliers.
+
+11. Using the given dataset, compute the correlation matrix and identify highly correlated features.
+
+12. Using the given dataset, plot a heatmap for correlation matrix and interpret relationships.
+
+13. Using the given dataset, generate a pairplot and analyze relationships between variables.
+
+14. Using the given dataset, calculate skewness of features and identify skewed variables.
+
+15. Using the given dataset, implement a Logistic Regression model for binary classification.
+
+16. Using the given dataset, split the data into training and testing sets in 75:25 ratio.
+
+17. Using the given dataset, train the Logistic Regression model and predict class labels.
+
+18. Using the given dataset, calculate accuracy score of the Logistic Regression model.
+
+19. Using the given dataset, generate a confusion matrix and interpret results.
+
+20. Using the given dataset, print classification report including precision, recall, and F1-score.
+
+21. Using the given dataset, train Logistic Regression with and without scaling and compare results.
+
+22. Using the given dataset, implement k-NN classifier with k = 3.
+
+23. Using the given dataset, evaluate accuracy of k-NN model.
+
+24. Using the given dataset, train k-NN model for k values from 1 to 10.
+
+25. Using the given dataset, apply feature scaling and observe its effect on k-NN.
+
+26. Using the given dataset, implement Multiple Linear Regression.
+
+27. Using the given dataset, predict target values using regression model.
+
+28. Using the given dataset, calculate Mean Squared Error (MSE).
+
+29. Using the given dataset, calculate R² score and interpret performance.
+
+30. Using the given dataset, compare linear and polynomial regression results.
+
+31. Using the given dataset, plot regression curve for visualization.
+
+32. Using the given dataset, implement Linear Regression and compute MSE.
+
+33. Using the given dataset, implement Ridge Regression with given alpha value.
+
+34. Using the given dataset, implement Lasso Regression with given alpha value.
+
+35. Using the given dataset, compare MSE of Linear, Ridge, and Lasso models.
+
+36. Using the given dataset, calculate average MSE using cross-validation.
+
+37. Using the given dataset, compare validation and cross-validation results.
+
+38. Using the given dataset, select best model based on minimum error.
+
+39. Using the given dataset, tune alpha parameter using cross-validation.
+
+40. Using the given dataset, plot error versus alpha values.
+
+41. Using the given dataset, compare coefficients of Ridge and Lasso models.
+
+42. Using the given dataset, compare linear and polynomial regression results.
+
+====================================================================
+""")
