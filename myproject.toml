@@ -1,0 +1,11 @@
+[project]
+name = "pipcode-ani"   # must be unique
+version = "0.1.0"
+description = "My pip package"
+authors = [{name = "Aniket"}]
+readme = "README.md"
+requires-python = ">=3.7"
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
