@@ -1,0 +1,8 @@
+README.md
+pyproject.toml
+pipcode/__init__.py
+pipcode/core.py
+pipcode_ani.egg-info/PKG-INFO
+pipcode_ani.egg-info/SOURCES.txt
+pipcode_ani.egg-info/dependency_links.txt
+pipcode_ani.egg-info/top_level.txt

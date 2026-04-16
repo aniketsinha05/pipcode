@@ -1,0 +1,9 @@
+Metadata-Version: 2.4
+Name: pipcode-ani
+Version: 0.1.0
+Summary: My pip package
+Author: Aniket
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+
+# pipcode
