@@ -804,3 +804,101 @@ def show_all_questions():
 
 ====================================================================
 """)
+    
+
+def practical_26():
+    print("""# Practical 26
+import pandas as pd
+from sklearn.linear_model import LinearRegression
+
+df = pd.read_csv("ml_practical_dataset.csv").dropna()
+
+X = df[['Age','Salary','Experience','PerformanceScore']]
+y = df['Target_Regression']
+
+model = LinearRegression()
+model.fit(X, y)
+""")
+
+
+def practical_27():
+    print("""# Practical 27
+import pandas as pd
+from sklearn.linear_model import LinearRegression
+
+df = pd.read_csv("ml_practical_dataset.csv").dropna()
+
+X = df[['Age','Salary','Experience','PerformanceScore']]
+y = df['Target_Regression']
+
+model = LinearRegression()
+model.fit(X, y)
+
+y_pred = model.predict(X)
+print(y_pred)
+""")
+
+
+def practical_28():
+    print("""# Practical 28
+import pandas as pd
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error
+
+df = pd.read_csv("ml_practical_dataset.csv").dropna()
+
+X = df[['Age','Salary','Experience','PerformanceScore']]
+y = df['Target_Regression']
+
+model = LinearRegression()
+model.fit(X, y)
+
+y_pred = model.predict(X)
+
+print(mean_squared_error(y, y_pred))
+""")
+
+
+def practical_29():
+    print("""# Practical 29
+import pandas as pd
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import r2_score
+
+df = pd.read_csv("ml_practical_dataset.csv").dropna()
+
+X = df[['Age','Salary','Experience','PerformanceScore']]
+y = df['Target_Regression']
+
+model = LinearRegression()
+model.fit(X, y)
+
+y_pred = model.predict(X)
+
+print(r2_score(y, y_pred))
+""")
+
+
+def practical_30():
+    print("""# Practical 30
+import pandas as pd
+from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.metrics import mean_squared_error, r2_score
+
+df = pd.read_csv("ml_practical_dataset.csv").dropna()
+
+X = df[['Age']]
+y = df['Target_Regression']
+
+poly = PolynomialFeatures(2)
+X_poly = poly.fit_transform(X)
+
+model = LinearRegression()
+model.fit(X_poly, y)
+
+y_pred = model.predict(X_poly)
+
+print(mean_squared_error(y, y_pred))
+print(r2_score(y, y_pred))
+""")
