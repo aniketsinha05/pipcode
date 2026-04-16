@@ -1,6 +1,6 @@
 [project]
 name = "pipcode-ani"   # must be unique
-version = "0.1.0"
+version = "0.1.1"
 description = "My pip package"
 authors = [{name = "Aniket"}]
 readme = "README.md"
