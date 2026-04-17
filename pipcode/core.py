@@ -1,904 +1,1275 @@
-# ===================== Practical Printer Library =====================
-
 def practical_1():
     print("""# ===================== Practical 1 =====================
-import pandas as pd
+# Aim: To study and implement recursive algorithms using C++ by solving:
+# 1. Factorial Computation
+# 2. Tower of Hanoi problem
 
-df = pd.read_csv("ml_practical_dataset.csv")
+# --------------------- Program 1: Factorial (Recursive) ---------------------
+#include <iostream>
+using namespace std;
 
-print("Before:\\n", df)
-print("\\nMissing:\\n", df.isnull().sum())
+int factorial(int n)
+{
+    if (n == 0)
+        return 1;
+    else
+        return n * factorial(n - 1);
+}
 
-num_cols = df.select_dtypes(include=['float64', 'int64']).columns
-df[num_cols] = df[num_cols].fillna(df[num_cols].mean())
+int main()
+{
+    int num;
+    cout << "Enter a number: ";
+    cin >> num;
 
-print("\\nAfter:\\n", df)
-print("\\nMissing After:\\n", df.isnull().sum())
+    cout << "Factorial of " << num << " is: " << factorial(num);
+
+    return 0;
+}
+
+# --------------------- Program 2: Tower of Hanoi ---------------------
+#include <iostream>
+using namespace std;
+
+void towerOfHanoi(int n, char from, char to, char aux)
+{
+    if (n == 1)
+    {
+        cout << "Move disk 1 from " << from << " to " << to << endl;
+        return;
+    }
+    towerOfHanoi(n - 1, from, aux, to);
+    cout << "Move disk " << n << " from " << from << " to " << to << endl;
+    towerOfHanoi(n - 1, aux, to, from);
+}
+
+int main()
+{
+    int n;
+    cout << "Enter number of disks: ";
+    cin >> n;
+    cout << "Steps to solve Tower of Hanoi:\\n";
+    towerOfHanoi(n, 'A', 'C', 'B');
+    return 0;
+}
 """)
-
+    
 
 def practical_2():
     print("""# ===================== Practical 2 =====================
-import pandas as pd
+# Aim: To study and implement non-recursive (iterative) sorting algorithms—Bubble Sort, Insertion Sort, and Selection Sort—using C++.
 
-df = pd.read_csv("ml_practical_dataset.csv")
+# --------------------- Program 1: Bubble Sort ---------------------
+#include <iostream>
+using namespace std;
 
-print("Before:\\n", df['Department'].value_counts())
+int main() {
+    int n, a[50];
+    cout << "Enter number of elements: ";
+    cin >> n;
 
-df['Department'].fillna(df['Department'].mode()[0], inplace=True)
+    cout << "Enter elements:\\n";
+    for(int i = 0; i < n; i++)
+        cin >> a[i];
 
-print("\\nAfter:\\n", df['Department'].value_counts())
+    for(int i = 0; i < n - 1; i++) {
+        for(int j = 0; j < n - i - 1; j++) {
+            if(a[j] > a[j + 1]) {
+                int temp = a[j];
+                a[j] = a[j + 1];
+                a[j + 1] = temp;
+            }
+        }
+    }
+
+    cout << "Sorted array:\\n";
+    for(int i = 0; i < n; i++)
+        cout << a[i] << " ";
+
+    return 0;
+}
+
+# --------------------- Program 2: Insertion Sort ---------------------
+#include <iostream>
+using namespace std;
+
+int main() {
+    int n, a[50];
+    cout << "Enter number of elements: ";
+    cin >> n;
+
+    cout << "Enter elements:\\n";
+    for(int i = 0; i < n; i++)
+        cin >> a[i];
+
+    for(int i = 1; i < n; i++) {
+        int key = a[i];
+        int j = i - 1;
+
+        while(j >= 0 && a[j] > key) {
+            a[j + 1] = a[j];
+            j--;
+        }
+        a[j + 1] = key;
+    }
+
+    cout << "Sorted array:\\n";
+    for(int i = 0; i < n; i++)
+        cout << a[i] << " ";
+
+    return 0;
+}
+
+# --------------------- Program 3: Selection Sort ---------------------
+#include <iostream>
+using namespace std;
+
+int main() {
+    int n, a[50];
+    cout << "Enter number of elements: ";
+    cin >> n;
+
+    cout << "Enter elements:\\n";
+    for(int i = 0; i < n; i++)
+        cin >> a[i];
+
+    for(int i = 0; i < n - 1; i++) {
+        int min = i;
+
+        for(int j = i + 1; j < n; j++) {
+            if(a[j] < a[min])
+                min = j;
+        }
+
+        int temp = a[i];
+        a[i] = a[min];
+        a[min] = temp;
+    }
+
+    cout << "Sorted array:\\n";
+    for(int i = 0; i < n; i++)
+        cout << a[i] << " ";
+
+    return 0;
+}
 """)
+    
 
 
 def practical_3():
     print("""# ===================== Practical 3 =====================
-import pandas as pd
-from sklearn.preprocessing import LabelEncoder
+# Aim: To study and implement Binary Search, Merge Sort, Quick Sort.
 
-df = pd.read_csv("ml_practical_dataset.csv")
+# --------------------- Program 1: Binary Search ---------------------
+#include <iostream>
+using namespace std;
 
-le = LabelEncoder()
-df['Department'] = df['Department'].astype(str)
+int main() {
+    int n, key;
+    cout << "Enter number of elements: ";
+    cin >> n;
 
-df['Department_Encoded'] = le.fit_transform(df['Department'])
+    int arr[n];
+    cout << "Enter sorted elements:\\n";
+    for(int i = 0; i < n; i++)
+        cin >> arr[i];
 
-print(df[['Department', 'Department_Encoded']])
+    cout << "Enter element to search: ";
+    cin >> key;
+
+    int low = 0, high = n - 1, mid;
+    bool found = false;
+
+    while(low <= high) {
+        mid = (low + high) / 2;
+        if(arr[mid] == key) {
+            cout << "Element found at position " << mid + 1;
+            found = true;
+            break;
+        }
+        else if(key < arr[mid])
+            high = mid - 1;
+        else
+            low = mid + 1;
+    }
+
+    if(!found)
+        cout << "Element not found";
+
+    return 0;
+}
+
+# --------------------- Program 2: Merge Sort ---------------------
+#include <iostream>
+using namespace std;
+
+void merge(int arr[], int l, int m, int r) {
+    int n1 = m - l + 1;
+    int n2 = r - m;
+
+    int L[n1], R[n2];
+
+    for(int i = 0; i < n1; i++)
+        L[i] = arr[l + i];
+    for(int j = 0; j < n2; j++)
+        R[j] = arr[m + 1 + j];
+
+    int i = 0, j = 0, k = l;
+
+    while(i < n1 && j < n2) {
+        if(L[i] <= R[j])
+            arr[k++] = L[i++];
+        else
+            arr[k++] = R[j++];
+    }
+
+    while(i < n1)
+        arr[k++] = L[i++];
+
+    while(j < n2)
+        arr[k++] = R[j++];
+}
+
+void mergeSort(int arr[], int l, int r) {
+    if(l < r) {
+        int m = (l + r) / 2;
+        mergeSort(arr, l, m);
+        mergeSort(arr, m + 1, r);
+        merge(arr, l, m, r);
+    }
+}
+
+int main() {
+    int n;
+    cout << "Enter number of elements: ";
+    cin >> n;
+
+    int arr[n];
+    cout << "Enter elements:\\n";
+    for(int i = 0; i < n; i++)
+        cin >> arr[i];
+
+    mergeSort(arr, 0, n - 1);
+
+    cout << "Sorted array:\\n";
+    for(int i = 0; i < n; i++)
+        cout << arr[i] << " ";
+
+    return 0;
+}
+
+# --------------------- Program 3: Quick Sort ---------------------
+#include <iostream>
+using namespace std;
+
+int partition(int arr[], int low, int high) {
+    int pivot = arr[high];
+    int i = low - 1;
+
+    for(int j = low; j < high; j++) {
+        if(arr[j] <= pivot) {
+            i++;
+            swap(arr[i], arr[j]);
+        }
+    }
+    swap(arr[i + 1], arr[high]);
+    return i + 1;
+}
+
+void quickSort(int arr[], int low, int high) {
+    if(low < high) {
+        int pi = partition(arr, low, high);
+        quickSort(arr, low, pi - 1);
+        quickSort(arr, pi + 1, high);
+    }
+}
+
+int main() {
+    int n;
+    cout << "Enter number of elements: ";
+    cin >> n;
+
+    int arr[n];
+    cout << "Enter elements:\\n";
+    for(int i = 0; i < n; i++)
+        cin >> arr[i];
+
+    quickSort(arr, 0, n - 1);
+
+    cout << "Sorted array:\\n";
+    for(int i = 0; i < n; i++)
+        cout << arr[i] << " ";
+
+    return 0;
+}
 """)
-
-
+    
 def practical_4():
     print("""# ===================== Practical 4 =====================
-import pandas as pd
+# Aim: To study and implement following problems using Greedy method:
+# 1. Fractional Knapsack Problem
+# 2. Activity Selection Problem
+# 3. Job sequencing with deadline
 
-df = pd.read_csv("ml_practical_dataset.csv")
+# --------------------- Program 1: Fractional Knapsack ---------------------
+#include <iostream>
+#include <algorithm>
+using namespace std;
 
-df = pd.get_dummies(df, columns=['Department', 'Education'])
+struct Item {
+    int profit, weight;
+};
 
-print(df.head())
+bool compare(Item a, Item b) {
+    return (double)a.profit / a.weight >
+           (double)b.profit / b.weight;
+}
+
+int main() {
+    int n, capacity;
+    cout << "Enter number of items: ";
+    cin >> n;
+
+    Item items[n];
+    for(int i = 0; i < n; i++) {
+        cout << "Enter profit and weight of item " << i+1 << ": ";
+        cin >> items[i].profit >> items[i].weight;
+    }
+
+    cout << "Enter knapsack capacity: ";
+    cin >> capacity;
+
+    sort(items, items + n, compare);
+
+    double totalProfit = 0.0;
+
+    for(int i = 0; i < n && capacity > 0; i++) {
+        if(items[i].weight <= capacity) {
+            totalProfit += items[i].profit;
+            capacity -= items[i].weight;
+        } else {
+            totalProfit += items[i].profit *
+                           ((double)capacity / items[i].weight);
+            break;
+        }
+    }
+
+    cout << "Maximum profit: " << totalProfit;
+    return 0;
+}
+
+# --------------------- Program 2: Activity Selection ---------------------
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+struct Activity {
+    int start, finish;
+};
+
+bool compare(Activity a, Activity b) {
+    return a.finish < b.finish;
+}
+
+int main() {
+    int n;
+    cout << "Enter number of activities: ";
+    cin >> n;
+
+    Activity act[n];
+    for(int i = 0; i < n; i++) {
+        cout << "Enter start and finish time of activity " << i+1 << ": ";
+        cin >> act[i].start >> act[i].finish;
+    }
+
+    sort(act, act + n, compare);
+
+    cout << "Selected activities:\\n";
+    int lastFinish = act[0].finish;
+    cout << "(" << act[0].start << "," << act[0].finish << ")\\n";
+
+    for(int i = 1; i < n; i++) {
+        if(act[i].start >= lastFinish) {
+            cout << "(" << act[i].start << "," << act[i].finish << ")\\n";
+            lastFinish = act[i].finish;
+        }
+    }
+
+    return 0;
+}
+
+# --------------------- Program 3: Job Sequencing ---------------------
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+struct Job {
+    char id;
+    int deadline, profit;
+};
+
+bool compare(Job a, Job b) {
+    return a.profit > b.profit;
+}
+
+int main() {
+    int n;
+    cout << "Enter number of jobs: ";
+    cin >> n;
+
+    Job jobs[n];
+    for(int i = 0; i < n; i++) {
+        cout << "Enter job id, deadline and profit: ";
+        cin >> jobs[i].id >> jobs[i].deadline >> jobs[i].profit;
+    }
+
+    sort(jobs, jobs + n, compare);
+
+    int maxDeadline = 0;
+    for(int i = 0; i < n; i++)
+        maxDeadline = max(maxDeadline, jobs[i].deadline);
+
+    char slot[maxDeadline];
+    bool filled[maxDeadline] = {false};
+
+    int totalProfit = 0;
+
+    for(int i = 0; i < n; i++) {
+        for(int j = jobs[i].deadline - 1; j >= 0; j--) {
+            if(!filled[j]) {
+                filled[j] = true;
+                slot[j] = jobs[i].id;
+                totalProfit += jobs[i].profit;
+                break;
+            }
+        }
+    }
+
+    cout << "Job sequence:\\n";
+    for(int i = 0; i < maxDeadline; i++)
+        if(filled[i])
+            cout << slot[i] << " ";
+
+    cout << "\\nTotal profit: " << totalProfit;
+    return 0;
+}
 """)
 
 
 def practical_5():
     print("""# ===================== Practical 5 =====================
-import pandas as pd
-from sklearn.preprocessing import MinMaxScaler
+# Aim: To study and implement following problems:
+# 1. 0/1 Knapsack Problem
+# 2. Coin Change-Making Problem
+# 3. Weighted Job Scheduling Problem
 
-df = pd.read_csv("ml_practical_dataset.csv")
+# --------------------- Program 1: 0/1 Knapsack ---------------------
+#include <iostream>
+using namespace std;
 
-num_cols = ['Age', 'Salary', 'Experience', 'PerformanceScore']
+int max(int a, int b) {
+    return (a > b) ? a : b;
+}
 
-scaler = MinMaxScaler()
-df[num_cols] = scaler.fit_transform(df[num_cols])
+int main() {
+    int n, W;
+    cout << "Enter number of items: ";
+    cin >> n;
 
-print(df[num_cols].head())
+    int wt[n], val[n];
+    for(int i = 0; i < n; i++) {
+        cout << "Enter weight and profit of item " << i+1 << ": ";
+        cin >> wt[i] >> val[i];
+    }
+
+    cout << "Enter knapsack capacity: ";
+    cin >> W;
+
+    int dp[n+1][W+1];
+
+    for(int i = 0; i <= n; i++) {
+        for(int w = 0; w <= W; w++) {
+            if(i == 0 || w == 0)
+                dp[i][w] = 0;
+            else if(wt[i-1] <= w)
+                dp[i][w] = max(val[i-1] +
+                               dp[i-1][w - wt[i-1]],
+                               dp[i-1][w]);
+            else
+                dp[i][w] = dp[i-1][w];
+        }
+    }
+
+    cout << "Maximum profit: " << dp[n][W];
+    return 0;
+}
+
+# --------------------- Program 2: Coin Change ---------------------
+#include <iostream>
+#include <climits>
+using namespace std;
+
+int min(int a, int b) {
+    return (a < b) ? a : b;
+}
+
+int main() {
+    int n, amount;
+    cout << "Enter number of coin types: ";
+    cin >> n;
+
+    int coins[n];
+    cout << "Enter coin denominations:\\n";
+    for(int i = 0; i < n; i++)
+        cin >> coins[i];
+
+    cout << "Enter amount: ";
+    cin >> amount;
+
+    int dp[amount + 1];
+    dp[0] = 0;
+
+    for(int i = 1; i <= amount; i++)
+        dp[i] = INT_MAX;
+
+    for(int i = 1; i <= amount; i++) {
+        for(int j = 0; j < n; j++) {
+            if(coins[j] <= i && dp[i - coins[j]] != INT_MAX)
+                dp[i] = min(dp[i], dp[i - coins[j]] + 1);
+        }
+    }
+
+    cout << "Minimum coins required: " << dp[amount];
+    return 0;
+}
+
+# --------------------- Program 3: Weighted Job Scheduling ---------------------
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+struct Job {
+    int start, finish, profit;
+};
+
+bool compare(Job a, Job b) {
+    return a.finish < b.finish;
+}
+
+int main() {
+    int n;
+    cout << "Enter number of jobs: ";
+    cin >> n;
+
+    Job jobs[n];
+    for(int i = 0; i < n; i++) {
+        cout << "Enter start, finish and profit: ";
+        cin >> jobs[i].start >> jobs[i].finish >> jobs[i].profit;
+    }
+
+    sort(jobs, jobs + n, compare);
+
+    int dp[n];
+    dp[0] = jobs[0].profit;
+
+    for(int i = 1; i < n; i++) {
+        int incl = jobs[i].profit;
+
+        for(int j = i - 1; j >= 0; j--) {
+            if(jobs[j].finish <= jobs[i].start) {
+                incl += dp[j];
+                break;
+            }
+        }
+
+        dp[i] = max(incl, dp[i - 1]);
+    }
+
+    cout << "Maximum profit: " << dp[n - 1];
+    return 0;
+}
 """)
     
+
 def practical_6():
     print("""# ===================== Practical 6 =====================
-import pandas as pd
-from sklearn.preprocessing import StandardScaler
+# Aim: To study and implement following algorithms to find the shortest path:
+# 1. Bellman–Ford Algorithm
+# 2. Floyd–Warshall Algorithm
+# 3. Travelling Salesman Problem (TSP)
 
-df = pd.read_csv("ml_practical_dataset.csv")
+# --------------------- Program 1: Bellman–Ford ---------------------
+#include <iostream>
+#include <climits>
+using namespace std;
 
-num_cols = ['Age', 'Salary', 'Experience', 'PerformanceScore']
+struct Edge {
+    int src, dest, weight;
+};
 
-scaler = StandardScaler()
-df[num_cols] = scaler.fit_transform(df[num_cols])
+int main() {
+    int V, E;
+    cout << "Enter number of vertices and edges: ";
+    cin >> V >> E;
 
-print(df[num_cols].mean())
-print(df[num_cols].std())
+    Edge edges[E];
+    for(int i = 0; i < E; i++) {
+        cout << "Enter source, destination and weight: ";
+        cin >> edges[i].src >> edges[i].dest >> edges[i].weight;
+    }
+
+    int src;
+    cout << "Enter source vertex: ";
+    cin >> src;
+
+    int dist[V];
+    for(int i = 0; i < V; i++)
+        dist[i] = INT_MAX;
+    dist[src] = 0;
+
+    for(int i = 1; i <= V - 1; i++) {
+        for(int j = 0; j < E; j++) {
+            int u = edges[j].src;
+            int v = edges[j].dest;
+            int w = edges[j].weight;
+
+            if(dist[u] != INT_MAX && dist[u] + w < dist[v])
+                dist[v] = dist[u] + w;
+        }
+    }
+
+    for(int j = 0; j < E; j++) {
+        if(dist[edges[j].src] != INT_MAX &&
+           dist[edges[j].src] + edges[j].weight < dist[edges[j].dest]) {
+            cout << "Graph contains negative weight cycle";
+            return 0;
+        }
+    }
+
+    cout << "Vertex   Distance from Source\\n";
+    for(int i = 0; i < V; i++)
+        cout << i << "\\t\\t" << dist[i] << endl;
+
+    return 0;
+}
+
+# --------------------- Program 2: Floyd–Warshall ---------------------
+#include <iostream>
+#include <climits>
+using namespace std;
+
+#define INF 99999
+
+int main() {
+    int V;
+    cout << "Enter number of vertices: ";
+    cin >> V;
+
+    int dist[V][V];
+    cout << "Enter adjacency matrix (use 99999 for INF):\\n";
+
+    for(int i = 0; i < V; i++)
+        for(int j = 0; j < V; j++)
+            cin >> dist[i][j];
+
+    for(int k = 0; k < V; k++)
+        for(int i = 0; i < V; i++)
+            for(int j = 0; j < V; j++)
+                if(dist[i][k] + dist[k][j] < dist[i][j])
+                    dist[i][j] = dist[i][k] + dist[k][j];
+
+    cout << "Shortest distance matrix:\\n";
+    for(int i = 0; i < V; i++) {
+        for(int j = 0; j < V; j++) {
+            if(dist[i][j] == INF)
+                cout << "INF ";
+            else
+                cout << dist[i][j] << " ";
+        }
+        cout << endl;
+    }
+
+    return 0;
+}
+
+# --------------------- Program 3: Travelling Salesman Problem ---------------------
+#include <iostream>
+#include <climits>
+using namespace std;
+
+#define N 4
+#define INF 99999
+
+int dist[N][N] = {
+    {0, 10, 15, 20},
+    {10, 0, 35, 25},
+    {15, 35, 0, 30},
+    {20, 25, 30, 0}
+};
+
+int dp[1 << N][N];
+
+int tsp(int mask, int pos) {
+    if(mask == (1 << N) - 1)
+        return dist[pos][0];
+
+    if(dp[mask][pos] != -1)
+        return dp[mask][pos];
+
+    int ans = INF;
+
+    for(int city = 0; city < N; city++) {
+        if((mask & (1 << city)) == 0) {
+            int newAns = dist[pos][city] +
+                         tsp(mask | (1 << city), city);
+            ans = min(ans, newAns);
+        }
+    }
+
+    return dp[mask][pos] = ans;
+}
+
+int main() {
+    for(int i = 0; i < (1 << N); i++)
+        for(int j = 0; j < N; j++)
+            dp[i][j] = -1;
+
+    cout << "Minimum travelling cost: " << tsp(1, 0);
+    return 0;
+}
 """)
 
 
 def practical_7():
     print("""# ===================== Practical 7 =====================
-import pandas as pd
+# Aim: To study and implement following algorithms/Problems:
+# 1. String Matching (Naïve Method)
+# 2. Subset Sum Problem
+# 3. 8-Queens Problem
 
-df = pd.read_csv("ml_practical_dataset.csv")
+# --------------------- Program 1: String Matching ---------------------
+#include <iostream>
+#include <string>
+using namespace std;
 
-df['New_Feature'] = df['Experience'] * df['PerformanceScore']
+int main() {
+    string text, pattern;
+    cout << "Enter text: ";
+    cin >> text;
+    cout << "Enter pattern: ";
+    cin >> pattern;
 
-print(df.head())
+    int n = text.length();
+    int m = pattern.length();
+    bool found = false;
+
+    for(int i = 0; i <= n - m; i++) {
+        int j;
+        for(j = 0; j < m; j++) {
+            if(text[i + j] != pattern[j])
+                break;
+        }
+        if(j == m) {
+            cout << "Pattern found at position " << i << endl;
+            found = true;
+        }
+    }
+
+    if(!found)
+        cout << "Pattern not found";
+
+    return 0;
+}
+
+# --------------------- Program 2: Subset Sum ---------------------
+#include <iostream>
+using namespace std;
+
+int n, target;
+int arr[10];
+
+void subsetSum(int index, int sum) {
+    if(sum == target) {
+        cout << "Subset found\\n";
+        return;
+    }
+    if(index == n || sum > target)
+        return;
+
+    subsetSum(index + 1, sum + arr[index]);
+    subsetSum(index + 1, sum);
+}
+
+int main() {
+    cout << "Enter number of elements: ";
+    cin >> n;
+
+    cout << "Enter elements:\\n";
+    for(int i = 0; i < n; i++)
+        cin >> arr[i];
+
+    cout << "Enter target sum: ";
+    cin >> target;
+
+    subsetSum(0, 0);
+    return 0;
+}
+
+# --------------------- Program 3: 8-Queens Problem ---------------------
+#include <iostream>
+using namespace std;
+
+int board[8][8];
+
+bool isSafe(int row, int col) {
+    for(int i = 0; i < col; i++)
+        if(board[row][i])
+            return false;
+
+    for(int i = row, j = col; i >= 0 && j >= 0; i--, j--)
+        if(board[i][j])
+            return false;
+
+    for(int i = row, j = col; i < 8 && j >= 0; i++, j--)
+        if(board[i][j])
+            return false;
+
+    return true;
+}
+
+bool solve(int col) {
+    if(col >= 8)
+        return true;
+
+    for(int i = 0; i < 8; i++) {
+        if(isSafe(i, col)) {
+            board[i][col] = 1;
+            if(solve(col + 1))
+                return true;
+            board[i][col] = 0;
+        }
+    }
+    return false;
+}
+
+int main() {
+    if(solve(0)) {
+        cout << "One solution:\\n";
+        for(int i = 0; i < 8; i++) {
+            for(int j = 0; j < 8; j++)
+                cout << board[i][j] << " ";
+            cout << endl;
+        }
+    } else {
+        cout << "No solution exists";
+    }
+    return 0;
+}
 """)
 
 
 def practical_8():
     print("""# ===================== Practical 8 =====================
-import pandas as pd
+# Aim: To study and implement following algorithms/Problems:
+# 1. N-Queens Problem
+# 2. Graph Coloring Problem
+# 3. Hamiltonian Cycle Problem
 
-df = pd.read_csv("ml_practical_dataset.csv")
+# --------------------- Program 1: N-Queens ---------------------
+#include <iostream>
+using namespace std;
 
-print(df.describe())
+int board[10][10], N;
 
-print("\\nMedian:\\n", df.median(numeric_only=True))
+bool isSafe(int row, int col) {
+    for (int i = 0; i < col; i++)
+        if (board[row][i]) return false;
+
+    for (int i = row, j = col; i >= 0 && j >= 0; i--, j--)
+        if (board[i][j]) return false;
+
+    for (int i = row, j = col; i < N && j >= 0; i++, j--)
+        if (board[i][j]) return false;
+
+    return true;
+}
+
+bool solve(int col) {
+    if (col >= N) return true;
+
+    for (int i = 0; i < N; i++) {
+        if (isSafe(i, col)) {
+            board[i][col] = 1;
+            if (solve(col + 1)) return true;
+            board[i][col] = 0;
+        }
+    }
+    return false;
+}
+
+int main() {
+    cout << "Enter number of queens: ";
+    cin >> N;
+
+    if (solve(0)) {
+        cout << "Solution:\\n";
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++)
+                cout << board[i][j] << " ";
+            cout << endl;
+        }
+    } else {
+        cout << "No solution exists";
+    }
+    return 0;
+}
+
+# --------------------- Program 2: Graph Coloring ---------------------
+#include <iostream>
+using namespace std;
+
+int graph[10][10], color[10], n, m;
+
+bool isSafe(int v, int c) {
+    for (int i = 0; i < n; i++)
+        if (graph[v][i] && color[i] == c)
+            return false;
+    return true;
+}
+
+bool graphColoring(int v) {
+    if (v == n) return true;
+
+    for (int c = 1; c <= m; c++) {
+        if (isSafe(v, c)) {
+            color[v] = c;
+            if (graphColoring(v + 1)) return true;
+            color[v] = 0;
+        }
+    }
+    return false;
+}
+
+int main() {
+    cout << "Enter number of vertices: ";
+    cin >> n;
+
+    cout << "Enter adjacency matrix:\\n";
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < n; j++)
+            cin >> graph[i][j];
+
+    cout << "Enter number of colors: ";
+    cin >> m;
+
+    if (graphColoring(0)) {
+        cout << "Coloring Solution:\\n";
+        for (int i = 0; i < n; i++)
+            cout << "Vertex " << i << " -> Color " << color[i] << endl;
+    } else {
+        cout << "No solution exists";
+    }
+    return 0;
+}
+
+# --------------------- Program 3: Hamiltonian Cycle ---------------------
+#include <iostream>
+using namespace std;
+
+int graph[10][10], path[10], n;
+
+bool isSafe(int v, int pos) {
+    if (!graph[path[pos - 1]][v]) return false;
+
+    for (int i = 0; i < pos; i++)
+        if (path[i] == v) return false;
+
+    return true;
+}
+
+bool hamiltonian(int pos) {
+    if (pos == n) {
+        return graph[path[pos - 1]][path[0]];
+    }
+
+    for (int v = 1; v < n; v++) {
+        if (isSafe(v, pos)) {
+            path[pos] = v;
+            if (hamiltonian(pos + 1)) return true;
+            path[pos] = -1;
+        }
+    }
+    return false;
+}
+
+int main() {
+    cout << "Enter number of vertices: ";
+    cin >> n;
+
+    cout << "Enter adjacency matrix:\\n";
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < n; j++)
+            cin >> graph[i][j];
+
+    for (int i = 0; i < n; i++) path[i] = -1;
+    path[0] = 0;
+
+    if (hamiltonian(1)) {
+        cout << "Hamiltonian Cycle:\\n";
+        for (int i = 0; i < n; i++)
+            cout << path[i] << " ";
+        cout << path[0];
+    } else {
+        cout << "No Hamiltonian Cycle exists";
+    }
+    return 0;
+}
 """)
 
 
 def practical_9():
     print("""# ===================== Practical 9 =====================
-import pandas as pd
-import matplotlib.pyplot as plt
+# Aim: To study and implement LIFO node selection using a Stack and FIFO node selection using a Queue.
 
-df = pd.read_csv("ml_practical_dataset.csv")
+# --------------------- Program 1: LIFO using Stack ---------------------
+#include <iostream>
+#include <stack>
+using namespace std;
 
-df.hist()
-plt.show()
+int main() {
+    stack<int> s;
+    int n, x;
+
+    cout << "Enter number of nodes: ";
+    cin >> n;
+
+    cout << "Enter node values:\\n";
+    for (int i = 0; i < n; i++) {
+        cin >> x;
+        s.push(x);
+    }
+
+    cout << "LIFO Node Selection Order:\\n";
+    while (!s.empty()) {
+        cout << s.top() << " ";
+        s.pop();
+    }
+
+    return 0;
+}
+
+# --------------------- Program 2: FIFO using Queue ---------------------
+#include <iostream>
+#include <queue>
+using namespace std;
+
+int main() {
+    queue<int> q;
+    int n, x;
+
+    cout << "Enter number of nodes: ";
+    cin >> n;
+
+    cout << "Enter node values:\\n";
+    for (int i = 0; i < n; i++) {
+        cin >> x;
+        q.push(x);
+    }
+
+    cout << "FIFO Node Selection Order:\\n";
+    while (!q.empty()) {
+        cout << q.front() << " ";
+        q.pop();
+    }
+
+    return 0;
+}
 """)
 
 
 def practical_10():
     print("""# ===================== Practical 10 =====================
-import pandas as pd
-import matplotlib.pyplot as plt
+# Aim: To solve the 0/1 Knapsack Problem using FIFO and Least Cost (LC) Branch and Bound approach,
+# and Travelling Salesman Problem (TSP) using Least Cost Branch and Bound approach.
 
-df = pd.read_csv("ml_practical_dataset.csv")
+# --------------------- Program 1: 0/1 Knapsack (LC Branch & Bound) ---------------------
+#include <bits/stdc++.h>
+using namespace std;
 
-df.boxplot()
-plt.show()
-""")
+struct Node {
+    int level, profit, weight;
+    float bound;
+};
 
+int n, W;
+int wt[10], val[10];
 
-def practical_11():
-    print("""# ===================== Practical 11 =====================
-import pandas as pd
+float bound(Node u) {
+    if (u.weight >= W) return 0;
 
-df = pd.read_csv("ml_practical_dataset.csv")
+    float profit_bound = u.profit;
+    int j = u.level + 1;
+    int totweight = u.weight;
 
-corr = df.corr(numeric_only=True)
-print(corr)
-""")
+    while (j < n && totweight + wt[j] <= W) {
+        totweight += wt[j];
+        profit_bound += val[j];
+        j++;
+    }
 
+    if (j < n)
+        profit_bound += (W - totweight) * ((float)val[j] / wt[j]);
 
-def practical_12():
-    print("""# ===================== Practical 12 =====================
-import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
-
-df = pd.read_csv("ml_practical_dataset.csv")
-
-corr = df.corr(numeric_only=True)
-
-sns.heatmap(corr, annot=True)
-plt.show()
-""")
-
-
-def practical_13():
-    print("""# ===================== Practical 13 =====================
-import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
-
-df = pd.read_csv("ml_practical_dataset.csv")
-
-sns.pairplot(df)
-plt.show()
-""")
-
-
-def practical_14():
-    print("""# ===================== Practical 14 =====================
-import pandas as pd
-
-df = pd.read_csv("ml_practical_dataset.csv")
-
-print(df.skew(numeric_only=True))
-""")
-
-
-def practical_15():
-    print("""# ===================== Practical 15 =====================
-import pandas as pd
-from sklearn.linear_model import LogisticRegression
-
-df = pd.read_csv("ml_practical_dataset.csv")
-
-df = df.dropna()
-
-X = df[['Age', 'Salary', 'Experience', 'PerformanceScore']]
-y = df['Target_Class']
-
-model = LogisticRegression()
-model.fit(X, y)
-""")
-
-
-def practical_16():
-    print("""# ===================== Practical 16 =====================
-import pandas as pd
-from sklearn.model_selection import train_test_split
-
-df = pd.read_csv("ml_practical_dataset.csv")
-
-df = df.dropna()
-
-X = df[['Age', 'Salary', 'Experience', 'PerformanceScore']]
-y = df['Target_Class']
-
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
-""")
-
-
-def practical_17():
-    print("""# ===================== Practical 17 =====================
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LogisticRegression
-
-df = pd.read_csv("ml_practical_dataset.csv")
-
-df = df.dropna()
-
-X = df[['Age', 'Salary', 'Experience', 'PerformanceScore']]
-y = df['Target_Class']
-
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
-
-model = LogisticRegression()
-model.fit(X_train, y_train)
-
-y_pred = model.predict(X_test)
-
-print(y_pred)
-""")
-
-
-def practical_18():
-    print("""# ===================== Practical 18 =====================
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score
-
-df = pd.read_csv("ml_practical_dataset.csv")
-
-df = df.dropna()
-
-X = df[['Age', 'Salary', 'Experience', 'PerformanceScore']]
-y = df['Target_Class']
-
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
-
-model = LogisticRegression()
-model.fit(X_train, y_train)
-
-y_pred = model.predict(X_test)
-
-print("Accuracy:", accuracy_score(y_test, y_pred))
-""")
-
-
-def practical_19():
-    print("""# ===================== Practical 19 =====================
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import confusion_matrix
-
-df = pd.read_csv("ml_practical_dataset.csv")
-
-df = df.dropna()
-
-X = df[['Age', 'Salary', 'Experience', 'PerformanceScore']]
-y = df['Target_Class']
-
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
-
-model = LogisticRegression()
-model.fit(X_train, y_train)
-
-y_pred = model.predict(X_test)
-
-print(confusion_matrix(y_test, y_pred))
-""")
-
-
-def practical_20():
-    print("""# ===================== Practical 20 =====================
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import classification_report
-
-df = pd.read_csv("ml_practical_dataset.csv")
-
-df = df.dropna()
-
-X = df[['Age', 'Salary', 'Experience', 'PerformanceScore']]
-y = df['Target_Class']
-
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
-
-model = LogisticRegression()
-model.fit(X_train, y_train)
-
-y_pred = model.predict(X_test)
-
-print(classification_report(y_test, y_pred))
-""")
-
-
-def practical_21():
-    print("""# ===================== Practical 21 =====================
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LogisticRegression
-from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import accuracy_score
-
-df = pd.read_csv("ml_practical_dataset.csv")
-df = df.dropna()
-
-X = df[['Age', 'Salary', 'Experience', 'PerformanceScore']]
-y = df['Target_Class']
-
-# Without scaling
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
-model = LogisticRegression()
-model.fit(X_train, y_train)
-y_pred = model.predict(X_test)
-print("Without Scaling Accuracy:", accuracy_score(y_test, y_pred))
-
-# With scaling
-scaler = StandardScaler()
-X_scaled = scaler.fit_transform(X)
-
-X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.25)
-model = LogisticRegression()
-model.fit(X_train, y_train)
-y_pred = model.predict(X_test)
-print("With Scaling Accuracy:", accuracy_score(y_test, y_pred))
-""")
-
-
-def practical_22():
-    print("""# ===================== Practical 22 =====================
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.neighbors import KNeighborsClassifier
-
-df = pd.read_csv("ml_practical_dataset.csv")
-df = df.dropna()
-
-X = df[['Age', 'Salary', 'Experience', 'PerformanceScore']]
-y = df['Target_Class']
-
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
-
-knn = KNeighborsClassifier(n_neighbors=3)
-knn.fit(X_train, y_train)
-
-y_pred = knn.predict(X_test)
-print(y_pred)
-""")
-
-
-def practical_23():
-    print("""# ===================== Practical 23 =====================
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.metrics import accuracy_score
-
-df = pd.read_csv("ml_practical_dataset.csv")
-df = df.dropna()
-
-X = df[['Age', 'Salary', 'Experience', 'PerformanceScore']]
-y = df['Target_Class']
-
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
-
-knn = KNeighborsClassifier(n_neighbors=3)
-knn.fit(X_train, y_train)
-
-y_pred = knn.predict(X_test)
-print("Accuracy:", accuracy_score(y_test, y_pred))
-""")
-
-
-def practical_24():
-    print("""# ===================== Practical 24 =====================
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.metrics import accuracy_score
-
-df = pd.read_csv("ml_practical_dataset.csv")
-df = df.dropna()
-
-X = df[['Age', 'Salary', 'Experience', 'PerformanceScore']]
-y = df['Target_Class']
-
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
-
-for k in range(1, 11):
-    model = KNeighborsClassifier(n_neighbors=k)
-    model.fit(X_train, y_train)
-    pred = model.predict(X_test)
-    print("k =", k, "Accuracy =", accuracy_score(y_test, pred))
-""")
-
-
-def practical_25():
-    print("""# ===================== Practical 25 =====================
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import accuracy_score
-
-df = pd.read_csv("ml_practical_dataset.csv")
-df = df.dropna()
-
-X = df[['Age', 'Salary', 'Experience', 'PerformanceScore']]
-y = df['Target_Class']
-
-# Without scaling
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
-model = KNeighborsClassifier(n_neighbors=3)
-model.fit(X_train, y_train)
-pred = model.predict(X_test)
-print("Without Scaling:", accuracy_score(y_test, pred))
-
-# With scaling
-scaler = StandardScaler()
-X_scaled = scaler.fit_transform(X)
-
-X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.25)
-model = KNeighborsClassifier(n_neighbors=3)
-model.fit(X_train, y_train)
-pred = model.predict(X_test)
-print("With Scaling:", accuracy_score(y_test, pred))
-""")
-    
-
-def practical_31():
-    print("""# ===================== Practical 31 =====================
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-from sklearn.linear_model import LinearRegression
-from sklearn.preprocessing import PolynomialFeatures
-
-df = pd.read_csv("ml_practical_dataset.csv")
-df = df.dropna()
-
-X = df[['Age']]
-y = df['Target_Regression']
-
-poly = PolynomialFeatures(degree=2)
-X_poly = poly.fit_transform(X)
-
-model = LinearRegression()
-model.fit(X_poly, y)
-
-X_sorted = np.sort(X.values, axis=0)
-y_poly = model.predict(poly.transform(X_sorted))
-
-plt.scatter(X, y)
-plt.plot(X_sorted, y_poly)
-plt.show()
-""")
-
-
-def practical_32():
-    print("""# ===================== Practical 32 =====================
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
-from sklearn.metrics import mean_squared_error
-
-df = pd.read_csv("ml_practical_dataset.csv")
-df = df.dropna()
-
-X = df[['Age', 'Salary', 'Experience', 'PerformanceScore']]
-y = df['Target_Regression']
-
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
-
-model = LinearRegression()
-model.fit(X_train, y_train)
-
-y_pred = model.predict(X_test)
-
-print("MSE:", mean_squared_error(y_test, y_pred))
-""")
-
-
-def practical_33():
-    print("""# ===================== Practical 33 =====================
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import Ridge
-from sklearn.metrics import mean_squared_error
-
-df = pd.read_csv("ml_practical_dataset.csv")
-df = df.dropna()
-
-X = df[['Age', 'Salary', 'Experience', 'PerformanceScore']]
-y = df['Target_Regression']
-
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
-
-model = Ridge(alpha=0.1)
-model.fit(X_train, y_train)
-
-y_pred = model.predict(X_test)
-
-print("Ridge MSE:", mean_squared_error(y_test, y_pred))
-""")
-
-
-def practical_34():
-    print("""# ===================== Practical 34 =====================
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import Lasso
-from sklearn.metrics import mean_squared_error
-
-df = pd.read_csv("ml_practical_dataset.csv")
-df = df.dropna()
-
-X = df[['Age', 'Salary', 'Experience', 'PerformanceScore']]
-y = df['Target_Regression']
-
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
-
-model = Lasso(alpha=0.1)
-model.fit(X_train, y_train)
-
-y_pred = model.predict(X_test)
-
-print("Lasso MSE:", mean_squared_error(y_test, y_pred))
-""")
-
-
-def practical_35():
-    print("""# ===================== Practical 35 =====================
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression, Ridge, Lasso
-from sklearn.metrics import mean_squared_error
-
-df = pd.read_csv("ml_practical_dataset.csv")
-df = df.dropna()
-
-X = df[['Age', 'Salary', 'Experience', 'PerformanceScore']]
-y = df['Target_Regression']
-
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
-
-lr = LinearRegression()
-ridge = Ridge(alpha=0.1)
-lasso = Lasso(alpha=0.1)
-
-lr.fit(X_train, y_train)
-ridge.fit(X_train, y_train)
-lasso.fit(X_train, y_train)
-
-pred_lr = lr.predict(X_test)
-pred_ridge = ridge.predict(X_test)
-pred_lasso = lasso.predict(X_test)
-
-print("Linear MSE:", mean_squared_error(y_test, pred_lr))
-print("Ridge MSE:", mean_squared_error(y_test, pred_ridge))
-print("Lasso MSE:", mean_squared_error(y_test, pred_lasso))
-""")
-
-
-def practical_36():
-    print("""# ===================== Practical 36 =====================
-import pandas as pd
-from sklearn.model_selection import cross_val_score
-from sklearn.linear_model import LinearRegression
-
-df = pd.read_csv("ml_practical_dataset.csv")
-df = df.dropna()
-
-X = df[['Age', 'Salary', 'Experience', 'PerformanceScore']]
-y = df['Target_Regression']
-
-model = LinearRegression()
-
-scores = cross_val_score(model, X, y, cv=5, scoring='neg_mean_squared_error')
-
-print("Average MSE:", -scores.mean())
-""")
-
-
-def practical_37():
-    print("""# ===================== Practical 37 =====================
-import pandas as pd
-from sklearn.model_selection import train_test_split, cross_val_score
-from sklearn.linear_model import LinearRegression
-from sklearn.metrics import mean_squared_error
-
-df = pd.read_csv("ml_practical_dataset.csv")
-df = df.dropna()
-
-X = df[['Age', 'Salary', 'Experience', 'PerformanceScore']]
-y = df['Target_Regression']
-
-# Validation
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
-model = LinearRegression()
-model.fit(X_train, y_train)
-pred = model.predict(X_test)
-
-print("Validation MSE:", mean_squared_error(y_test, pred))
-
-# Cross-validation
-scores = cross_val_score(model, X, y, cv=5, scoring='neg_mean_squared_error')
-print("Cross-Validation MSE:", -scores.mean())
-""")
-
-
-def practical_38():
-    print("""# ===================== Practical 38 =====================
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression, Ridge, Lasso
-from sklearn.metrics import mean_squared_error
-
-df = pd.read_csv("ml_practical_dataset.csv")
-df = df.dropna()
-
-X = df[['Age', 'Salary', 'Experience', 'PerformanceScore']]
-y = df['Target_Regression']
-
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
-
-models = {
-    "Linear": LinearRegression(),
-    "Ridge": Ridge(alpha=0.1),
-    "Lasso": Lasso(alpha=0.1)
+    return profit_bound;
 }
 
-for name, model in models.items():
-    model.fit(X_train, y_train)
-    pred = model.predict(X_test)
-    print(name, "MSE:", mean_squared_error(y_test, pred))
+int knapsackLC() {
+    priority_queue<pair<float, Node>> pq;
+
+    Node u, v;
+    u.level = -1;
+    u.profit = u.weight = 0;
+    u.bound = bound(u);
+
+    pq.push({u.bound, u});
+
+    int maxProfit = 0;
+
+    while (!pq.empty()) {
+        u = pq.top().second;
+        pq.pop();
+
+        if (u.bound > maxProfit) {
+            v.level = u.level + 1;
+
+            v.weight = u.weight + wt[v.level];
+            v.profit = u.profit + val[v.level];
+
+            if (v.weight <= W && v.profit > maxProfit)
+                maxProfit = v.profit;
+
+            v.bound = bound(v);
+            if (v.bound > maxProfit)
+                pq.push({v.bound, v});
+
+            v.weight = u.weight;
+            v.profit = u.profit;
+            v.bound = bound(v);
+
+            if (v.bound > maxProfit)
+                pq.push({v.bound, v});
+        }
+    }
+
+    return maxProfit;
+}
+
+int main() {
+    cout << "Enter number of items: ";
+    cin >> n;
+
+    cout << "Enter weights and profits:\\n";
+    for (int i = 0; i < n; i++)
+        cin >> wt[i] >> val[i];
+
+    cout << "Enter knapsack capacity: ";
+    cin >> W;
+
+    cout << "Maximum Profit (LC Branch & Bound): "
+         << knapsackLC();
+
+    return 0;
+}
+
+# --------------------- Program 2: TSP (LC Branch & Bound) ---------------------
+#include <bits/stdc++.h>
+using namespace std;
+
+#define INF 9999
+int n = 4;
+
+int tsp(int graph[][4]) {
+    vector<int> perm = {1, 2, 3};
+    int min_cost = INF;
+
+    do {
+        int cost = graph[0][perm[0]] +
+                   graph[perm[0]][perm[1]] +
+                   graph[perm[1]][perm[2]] +
+                   graph[perm[2]][0];
+
+        min_cost = min(min_cost, cost);
+    } while (next_permutation(perm.begin(), perm.end()));
+
+    return min_cost;
+}
+
+int main() {
+    int graph[4][4] = {
+        {0, 10, 15, 20},
+        {10, 0, 35, 25},
+        {15, 35, 0, 30},
+        {20, 25, 30, 0}
+    };
+
+    cout << "Minimum travelling cost: "
+         << tsp(graph);
+
+    return 0;
+}
+""")
+
+def show_all_practicals():
+    print("""===================== ALL PRACTICALS =====================
+
+Practical 1:
+- Factorial (Recursion)
+- Tower of Hanoi
+
+Practical 2:
+- Bubble Sort
+- Insertion Sort
+- Selection Sort
+
+Practical 3:
+- Binary Search
+- Merge Sort
+- Quick Sort
+
+Practical 4:
+- Fractional Knapsack
+- Activity Selection
+- Job Sequencing with Deadline
+
+Practical 5:
+- 0/1 Knapsack (Dynamic Programming)
+- Coin Change Problem
+- Weighted Job Scheduling
+
+Practical 6:
+- Bellman-Ford Algorithm
+- Floyd-Warshall Algorithm
+- Travelling Salesman Problem (TSP)
+
+Practical 7:
+- String Matching (Naïve)
+- Subset Sum Problem
+- 8-Queens Problem
+
+Practical 8:
+- N-Queens Problem
+- Graph Coloring
+- Hamiltonian Cycle
+
+Practical 9:
+- LIFO using Stack
+- FIFO using Queue
+
+Practical 10:
+- 0/1 Knapsack (Branch & Bound - LC)
+- Travelling Salesman Problem (Branch & Bound)
+
+============================================================
 """)
 
 
-def practical_39():
-    print("""# ===================== Practical 39 =====================
-import pandas as pd
-from sklearn.model_selection import GridSearchCV
-from sklearn.linear_model import Ridge
-
-df = pd.read_csv("ml_practical_dataset.csv")
-df = df.dropna()
-
-X = df[['Age', 'Salary', 'Experience', 'PerformanceScore']]
-y = df['Target_Regression']
-
-model = Ridge()
-
-params = {'alpha': [0.001, 0.01, 0.1, 1, 10]}
-
-grid = GridSearchCV(model, params, cv=5, scoring='neg_mean_squared_error')
-grid.fit(X, y)
-
-print("Best Alpha:", grid.best_params_)
-""")
-
-
-def practical_40():
-    print("""# ===================== Practical 40 =====================
-import pandas as pd
-import matplotlib.pyplot as plt
-from sklearn.linear_model import Ridge
-from sklearn.model_selection import cross_val_score
-
-df = pd.read_csv("ml_practical_dataset.csv")
-df = df.dropna()
-
-X = df[['Age', 'Salary', 'Experience', 'PerformanceScore']]
-y = df['Target_Regression']
-
-alphas = [0.001, 0.01, 0.1, 1, 10]
-errors = []
-
-for a in alphas:
-    model = Ridge(alpha=a)
-    scores = cross_val_score(model, X, y, cv=5, scoring='neg_mean_squared_error')
-    errors.append(-scores.mean())
-
-plt.plot(alphas, errors)
-plt.xscale('log')
-plt.xlabel("Alpha")
-plt.ylabel("MSE")
-plt.show()
-""")
-    
-
-def show_all_questions():
-    print("""===================== ALL PRACTICAL QUESTIONS =====================
-
-1. Load the given dataset and identify missing values in numerical columns, then replace them using mean imputation and display the dataset before and after preprocessing.
-
-2. Using the given dataset, identify missing values in categorical columns and replace them using mode, then compare frequency distribution before and after.
-
-3. Using the given dataset, apply Label Encoding on a categorical column and display the transformed values.
-
-4. Using the given dataset, apply One-Hot Encoding on categorical features and show the increase in number of columns.
-
-5. Using the given dataset, perform Min-Max scaling on numerical features and verify that all values lie between 0 and 1.
-
-6. Using the given dataset, apply StandardScaler and verify mean is approximately 0 and standard deviation is 1.
-
-7. Using the given dataset, create a new feature using existing columns and display the updated dataset.
-
-8. Using the given dataset, display summary statistics including mean, median, minimum, maximum, and standard deviation.
-
-9. Using the given dataset, plot histograms for numerical features and describe the distribution.
-
-10. Using the given dataset, draw boxplots for selected features and identify outliers.
-
-11. Using the given dataset, compute the correlation matrix and identify highly correlated features.
-
-12. Using the given dataset, plot a heatmap for correlation matrix and interpret relationships.
-
-13. Using the given dataset, generate a pairplot and analyze relationships between variables.
-
-14. Using the given dataset, calculate skewness of features and identify skewed variables.
-
-15. Using the given dataset, implement a Logistic Regression model for binary classification.
-
-16. Using the given dataset, split the data into training and testing sets in 75:25 ratio.
-
-17. Using the given dataset, train the Logistic Regression model and predict class labels.
-
-18. Using the given dataset, calculate accuracy score of the Logistic Regression model.
-
-19. Using the given dataset, generate a confusion matrix and interpret results.
-
-20. Using the given dataset, print classification report including precision, recall, and F1-score.
-
-21. Using the given dataset, train Logistic Regression with and without scaling and compare results.
-
-22. Using the given dataset, implement k-NN classifier with k = 3.
-
-23. Using the given dataset, evaluate accuracy of k-NN model.
-
-24. Using the given dataset, train k-NN model for k values from 1 to 10.
-
-25. Using the given dataset, apply feature scaling and observe its effect on k-NN.
-
-26. Using the given dataset, implement Multiple Linear Regression.
-
-27. Using the given dataset, predict target values using regression model.
-
-28. Using the given dataset, calculate Mean Squared Error (MSE).
-
-29. Using the given dataset, calculate R² score and interpret performance.
-
-30. Using the given dataset, compare linear and polynomial regression results.
-
-31. Using the given dataset, plot regression curve for visualization.
-
-32. Using the given dataset, implement Linear Regression and compute MSE.
-
-33. Using the given dataset, implement Ridge Regression with given alpha value.
-
-34. Using the given dataset, implement Lasso Regression with given alpha value.
-
-35. Using the given dataset, compare MSE of Linear, Ridge, and Lasso models.
-
-36. Using the given dataset, calculate average MSE using cross-validation.
-
-37. Using the given dataset, compare validation and cross-validation results.
-
-38. Using the given dataset, select best model based on minimum error.
-
-39. Using the given dataset, tune alpha parameter using cross-validation.
-
-40. Using the given dataset, plot error versus alpha values.
-
-41. Using the given dataset, compare coefficients of Ridge and Lasso models.
-
-42. Using the given dataset, compare linear and polynomial regression results.
-
-====================================================================
-""")
-    
-
-def practical_26():
-    print("""# Practical 26
-import pandas as pd
-from sklearn.linear_model import LinearRegression
-
-df = pd.read_csv("ml_practical_dataset.csv").dropna()
-
-X = df[['Age','Salary','Experience','PerformanceScore']]
-y = df['Target_Regression']
-
-model = LinearRegression()
-model.fit(X, y)
-""")
-
-
-def practical_27():
-    print("""# Practical 27
-import pandas as pd
-from sklearn.linear_model import LinearRegression
-
-df = pd.read_csv("ml_practical_dataset.csv").dropna()
-
-X = df[['Age','Salary','Experience','PerformanceScore']]
-y = df['Target_Regression']
-
-model = LinearRegression()
-model.fit(X, y)
-
-y_pred = model.predict(X)
-print(y_pred)
-""")
-
-
-def practical_28():
-    print("""# Practical 28
-import pandas as pd
-from sklearn.linear_model import LinearRegression
-from sklearn.metrics import mean_squared_error
-
-df = pd.read_csv("ml_practical_dataset.csv").dropna()
-
-X = df[['Age','Salary','Experience','PerformanceScore']]
-y = df['Target_Regression']
-
-model = LinearRegression()
-model.fit(X, y)
-
-y_pred = model.predict(X)
-
-print(mean_squared_error(y, y_pred))
-""")
-
-
-def practical_29():
-    print("""# Practical 29
-import pandas as pd
-from sklearn.linear_model import LinearRegression
-from sklearn.metrics import r2_score
-
-df = pd.read_csv("ml_practical_dataset.csv").dropna()
-
-X = df[['Age','Salary','Experience','PerformanceScore']]
-y = df['Target_Regression']
-
-model = LinearRegression()
-model.fit(X, y)
-
-y_pred = model.predict(X)
-
-print(r2_score(y, y_pred))
-""")
-
-
-def practical_30():
-    print("""# Practical 30
-import pandas as pd
-from sklearn.linear_model import LinearRegression
-from sklearn.preprocessing import PolynomialFeatures
-from sklearn.metrics import mean_squared_error, r2_score
-
-df = pd.read_csv("ml_practical_dataset.csv").dropna()
-
-X = df[['Age']]
-y = df['Target_Regression']
-
-poly = PolynomialFeatures(2)
-X_poly = poly.fit_transform(X)
-
-model = LinearRegression()
-model.fit(X_poly, y)
-
-y_pred = model.predict(X_poly)
-
-print(mean_squared_error(y, y_pred))
-print(r2_score(y, y_pred))
-""")
